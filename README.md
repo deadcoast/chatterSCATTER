@@ -26,6 +26,7 @@
 > // No Audio SFX included. Users must upload their own.
 > { "audio":"NOT_INCLUDED" }
 > ```
+> for
 >> ```jsonc
 >> { 
 >>  "sniper":[
@@ -43,6 +44,7 @@
 > // Users may upload their own audio SFX for the MAIN silencer sniper sound
 > { "audio_upload":"SUPPORTED" }
 > ```
+> for
 >> ```jsonc
 >> { "sniper":"SHOT" }
 >> ```
