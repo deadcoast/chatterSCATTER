@@ -267,8 +267,13 @@ button:disabled{opacity:.35;pointer-events:none}
 #sndName{color:var(--armor);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* context menu */
-#menu{position:fixed;z-index:60;display:none;flex-direction:column;background:var(--panel2);border:1px solid var(--line);min-width:190px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#menu{position:fixed;z-index:60;display:none;flex-direction:column;background:var(--panel2);border:1px solid var(--line);min-width:190px;box-shadow:0 10px 30px rgba(0,0,0,.5);max-height:calc(100vh - 20px);overflow-y:auto}
 #menu.on{display:flex}
+#menu .par{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.14em}
+#menu .par .pc{color:var(--amber);font-family:var(--mono);letter-spacing:0}
+#menu .sub{display:none;flex-direction:column}
+#menu .sub.on{display:flex}
+#menu .sub button{padding-left:24px;background:rgba(13,17,22,.55)}
 #menu .mh{padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:.04em}
 #menu button{border:none;border-bottom:1px solid var(--line);text-align:left;display:flex;justify-content:space-between;gap:14px}
 #menu button small{color:var(--dim);font-family:var(--mono);text-transform:none;letter-spacing:0}
@@ -425,10 +430,15 @@ body.ov #ovroot{display:block}
         </label>
         <span class="count" id="counts">0 chatters</span>
         <span style="flex:1"></span>
-        <button class="ga hot" id="gaHit" data-tip="HIT everyone in the current filter for -25. DEF absorbs first. Asks before firing on 100+.">Hit all</button>
-        <button class="ga arm" id="gaHeal" data-tip="Everyone in the current filter back to 100 HP, alive.">Heal all</button>
-        <button class="ga" id="gaPin" data-tip="Pin the whole current filter to your PIN list.">Pin all</button>
-        <button class="ga" id="gaUnpin" data-tip="Remove the whole current filter from your PIN list.">Unpin all</button>
+        <label class="trl">LIST
+          <select id="listSel" data-tip="Which list the ALL actions operate on — PIN, BOUNTIES, or BIG IRON. They never touch the whole chat.">
+            <option value="pin">PIN</option><option value="bounties">BOUNTIES</option><option value="bigiron">BIG IRON</option>
+          </select>
+        </label>
+        <button class="ga hot" id="gaHit" data-tip="HIT every chatter on the selected list for -25. DEF absorbs first. Asks before firing on 100+.">Hit all</button>
+        <button class="ga arm" id="gaHeal" data-tip="Every chatter on the selected list back to 100 HP, alive.">Heal all</button>
+        <button class="ga" id="gaPin" data-tip="Pin every chatter on the selected list to your PIN list.">Pin all</button>
+        <button class="ga" id="gaUnpin" data-tip="Remove every chatter on the selected list from your PIN list.">Unpin all</button>
         <button class="ga" id="gaUndo" data-tip="Revert the last group action. Two steps kept — trimmed to one for very large groups.">Undo</button>
         <button class="ga" id="gaRedo" data-tip="Re-apply the last undone group action.">Redo</button>
         <button class="ga" id="gaRand" data-tip="Mark a random living chatter from the current filter — the overlay spins through names before landing.">Random</button>
@@ -843,8 +853,6 @@ let undoStack=[],redoStack=[];
 const snapSel=sel=>{const m={};for(const l of sel){const c=S.chatters[l];if(c)m[l]={hp:c.hp,def:c.def,dead:c.dead,open:c.open,pin:c.pin,pinT:c.pinT,ppin:c.ppin,ppinT:c.ppinT};}return m;};
 const applySnap=m=>{for(const l in m) if(S.chatters[l]) Object.assign(S.chatters[l],m[l]);};
 function updateUndoUI(){
-  $("#gaUndo").textContent="Undo"+(undoStack.length?" ×"+undoStack.length:"");
-  $("#gaRedo").textContent="Redo"+(redoStack.length?" ×"+redoStack.length:"");
   $("#gaUndo").disabled=!undoStack.length; $("#gaRedo").disabled=!redoStack.length;
 }
 function pushUndo(kind,sel){
@@ -858,10 +866,16 @@ function pushUndo(kind,sel){
   }
   updateUndoUI();
 }
+function listMembers(){
+  const lk=$("#listSel").value;
+  return S.order.filter(l=>{const c=S.chatters[l];
+    return lk==="pin"?c.ppin:lk==="bounties"?c.bounty:c.pin;});
+}
 function groupAct(kind){
-  const sel=filteredLogins();
-  if(!sel.length) return;
-  if((kind==="hit"||kind==="pin")&&sel.length>100&&!confirm(`${kind.toUpperCase()} ALL will affect ${sel.length} chatters. Continue?`)) return;
+  const lk=$("#listSel").value.toUpperCase();
+  const sel=listMembers();
+  if(!sel.length){ feed(`${lk} list is empty — nothing to ${kind}`,""); return; }
+  if((kind==="hit"||kind==="pin")&&sel.length>100&&!confirm(`${kind.toUpperCase()} ALL will affect ${sel.length} chatters on ${lk}. Continue?`)) return;
   pushUndo(kind,sel);
   let n=0,down=0; const det=[];
   for(const l of sel){ const c=S.chatters[l];
@@ -1119,20 +1133,33 @@ function openMenu(l,x,y){
       :`<button class="arm" data-a="revive" data-tip="Bring them back at 100 HP, alive.">REDEPLOY <small>100 HP</small></button>`;
   }
   else{
-    h+=`<button data-a="miss" data-tip="Declare the shot a miss — 0 damage, dodge animation, they live to lurk.">MISS <small>0 dmg</small></button>`;
-    h+=`<button class="hot" data-a="hit" data-tip="-25 damage. Their DEF absorbs it before HP.">HIT <small>-25</small></button>`;
-    if(c.open) h+=`<button class="hot" data-a="crit" data-tip="-50. Unlocked because they failed the CTA and are flagged OPEN.">CRITICAL <small>-50 · exposed</small></button>`;
-    h+=`<button class="hot" data-a="wasted" data-tip="Fatal. Silencer fires, WASTED stamp lands, straight to the morgue.">WASTE'EM <small>fatal</small></button>`;
-    h+=`<button class="arm" data-a="def" data-tip="Hand them +25 DEF on the house.">+DEF <small>+25</small></button>`;
+    h+=`<button class="par" data-p="atk" data-tip="Shot calls and DEF grants for this chatter.">ATTACK OPTIONS <small class="pc">▸</small></button>
+    <div class="sub" data-s="atk">
+      <button data-a="miss" data-tip="Declare the shot a miss — 0 damage, dodge animation, they live to lurk.">MISS <small>0 dmg</small></button>
+      <button class="hot" data-a="hit" data-tip="-25 damage. Their DEF absorbs it before HP.">HIT <small>-25</small></button>
+      ${c.open?`<button class="hot" data-a="crit" data-tip="-50. Unlocked because they failed the CTA and are flagged OPEN.">CRITICAL <small>-50 · exposed</small></button>`:""}
+      <button class="hot" data-a="wasted" data-tip="Fatal. Silencer fires, WASTED stamp lands, straight to the morgue.">WASTE'EM <small>fatal</small></button>
+      <button class="arm" data-a="def" data-tip="Hand them +25 DEF on the house.">+DEF <small>+25</small></button>
+    </div>`;
   }
-  h+=`<button data-a="ppin" style="color:var(--pin)" data-tip="PIN — the highest-priority list, manual placements only. Shows above Big Iron.">${c.ppin?"UNPIN":"PIN"} <small>${c.ppin?"remove":"priority"}</small></button>`;
-  if(!c.dead) h+=`<button data-a="bounty" style="color:var(--bounty)" data-tip="Mark them as a BOUNTY — securing the next CTA cashes out +100 XP; failing leaves their fate to you.">${c.bounty?"CLEAR BOUNTY":"BOUNTY"} <small>${c.bounty?"remove":"mark"}</small></button>`;
-  if(c.pin) h+=`<button data-a="iron" data-tip="Take them off the Big Iron engagement row.">RELEASE IRON <small>unpin</small></button>`;
+  h+=`<button class="par" data-p="pins" data-tip="PIN and BOUNTY placements for this chatter.">PINNED LISTS <small class="pc">▸</small></button>
+  <div class="sub" data-s="pins">
+    <button data-a="ppin" style="color:var(--pin)" data-tip="PIN — the highest-priority list, manual placements only. Shows above Big Iron.">${c.ppin?"UNPIN":"PIN"} <small>${c.ppin?"remove":"priority"}</small></button>
+    ${c.dead?"":`<button data-a="bounty" style="color:var(--bounty)" data-tip="Mark them as a BOUNTY — securing the next CTA cashes out +100 XP; failing leaves their fate to you.">${c.bounty?"CLEAR BOUNTY":"BOUNTY"} <small>${c.bounty?"remove":"mark"}</small></button>`}
+    ${c.pin?`<button data-a="iron" data-tip="Take them off the Big Iron engagement row.">RELEASE IRON <small>unpin</small></button>`:""}
+  </div>`;
   menu.innerHTML=h; menu.classList.add("on");
   menu.style.left=Math.min(x,innerWidth-230)+"px";
-  menu.style.top=Math.min(y,innerHeight-(c.dead?250:460))+"px";
+  menu.style.top=Math.min(y,innerHeight-320)+"px";
   menu.onclick=ev=>{
-    const a=ev.target.closest("button")?.dataset.a; if(!a) return;
+    const btn=ev.target.closest("button"); if(!btn) return;
+    if(btn.dataset.p){ // parent category: expand/collapse in place
+      const sub=menu.querySelector(`.sub[data-s="${btn.dataset.p}"]`);
+      const on=sub.classList.toggle("on");
+      btn.querySelector(".pc").textContent=on?"▾":"▸";
+      return;
+    }
+    const a=btn.dataset.a; if(!a) return;
     menu.classList.remove("on");
     if(a==="revive") revive(l);
     else if(a==="def") grantDef(l);
