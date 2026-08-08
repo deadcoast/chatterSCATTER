@@ -2,7 +2,7 @@
 
 # chatter**SCATTER**
 
-> oda
+<img src="https://cdn.7tv.app/emote/01J17WK010000DX4MZBQSYH8ZA/2x.gif" height="56" alt="oda">
 
 *A proprietary interaction format.*
 
@@ -12,10 +12,7 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 
 [**► LIVE PAGE**](https://deadcoast.github.io/chatterSCATTER/) · [Repository](https://github.com/deadcoast/chatterSCATTER)
 
-![single file](https://img.shields.io/badge/single%20file-index.html-ffb454?style=flat-square)
-![no auth](https://img.shields.io/badge/auth-none-ffb454?style=flat-square)
-![no setup](https://img.shields.io/badge/setup-type%20your%20channel-ffb454?style=flat-square)
-![no server](https://img.shields.io/badge/backend-none-232c36?style=flat-square)
+<code>SINGLE FILE</code> <code>NO AUTH</code> <code>NO API KEYS</code> <code>NO BACKEND</code> <code>NO SETUP</code>
 
 </div>
 
@@ -120,5 +117,7 @@ Click always opens full detail. Single-card refresh keeps shots instant at `1500
 <div align="center">
 
 chatterSCATTER
+
+[deadcoast.github.io/chatterSCATTER](https://deadcoast.github.io/chatterSCATTER/) · [github.com/deadcoast/chatterSCATTER](https://github.com/deadcoast/chatterSCATTER)
 
 </div>
