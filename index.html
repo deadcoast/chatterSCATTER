@@ -10,7 +10,7 @@
 :root{
   --bg:#12161b; --panel:#181e25; --panel2:#1d242d; --line:#232c36;
   --ink:#d7dde3; --dim:#6b7885;
-  --amber:#ffb454; --hot:#ff5c38; --armor:#4fd8eb; --pin:#d14568;
+  --amber:#ffb454; --hot:#ff5c38; --armor:#4fd8eb; --pin:#d14568; --bounty:#5ec26e;
   --disp:"Saira Condensed",sans-serif; --mono:"Share Tech Mono",monospace; --stamp:"Black Ops One",cursive;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -87,7 +87,7 @@ header button{padding:6px 12px;font-size:12px}
 /* ============ MAIN SPLIT ============ */
 main{flex:1;display:flex;min-height:0}
 #left{flex:1;display:flex;flex-direction:column;min-width:0}
-#toolrow{display:flex;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
+#toolrow{display:flex;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 #filter{width:200px}
 #toolrow .count{color:var(--dim);font-size:12px}
 #grid{flex:1;overflow-y:auto;padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;align-content:start}
@@ -170,6 +170,30 @@ button:disabled{opacity:.35;pointer-events:none}
 #ppinrow .card{width:224px}
 .card.ppinned{border-color:rgba(209,69,104,.65)}
 .card.ppinned.open{border-color:var(--hot)}
+
+/* BOUNTIES — between PIN and BIG IRON */
+#bountylist{padding:8px 16px 10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(94,194,110,.07),rgba(94,194,110,0))}
+#bountylist .eyebrow{color:var(--bounty)}
+#bountyrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+#bountyrow .card{width:224px}
+.card.bountied{border-color:rgba(94,194,110,.6)}
+.card.bountied.open{border-color:var(--hot)}
+.tag.bty{color:var(--bounty)}
+
+/* streak chip */
+.stk{color:var(--amber);font-size:11px}
+
+/* records modal (shares the help box look) */
+#records{position:fixed;inset:0;background:rgba(9,12,15,.8);display:none;align-items:center;justify-content:center;z-index:70}
+#records.on{display:flex}
+#records .box{background:var(--panel);border:1px solid var(--line);width:560px;max-height:80vh;overflow-y:auto;padding:24px 28px;font-size:13px;line-height:1.7}
+#records h2{font-family:var(--disp);letter-spacing:.1em;margin-bottom:12px}
+.recgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;margin-bottom:14px}
+.recgrid .r{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(35,44,54,.75);padding:3px 0}
+.recgrid .r span{color:var(--dim)} .recgrid .r b{font-family:var(--disp);letter-spacing:.04em}
+#fallen .fr{display:flex;align-items:center;gap:10px;justify-content:space-between;border-bottom:1px solid var(--line);padding:5px 0;font-size:12px;color:var(--dim)}
+#fallen .fr button{font-size:10px;padding:4px 8px}
+#fallen .chid{font-family:var(--mono);color:var(--pin)}
 
 /* Big Iron — pinned engagement row at top of the chat window */
 #bigiron{padding:8px 16px 10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,180,84,.06),rgba(255,180,84,0))}
@@ -270,6 +294,23 @@ body.ov #ovroot{display:block}
 #ovCta .t1 b{color:var(--amber)}
 #ovCta .clk{font-family:var(--disp);font-weight:700;font-size:30px;color:var(--amber)}
 #ovCta .sec{font-family:var(--mono);color:var(--armor);font-size:14px}
+/* urgency: one soft red fade per 5s during the final 10s — two pulses total */
+#ovUrg{width:10px;height:10px;border-radius:50%;background:var(--hot);opacity:0;display:none}
+#ovUrg.on{display:block;animation:urgp 5s linear infinite}
+@keyframes urgp{0%{opacity:0}12%{opacity:1}30%{opacity:0}100%{opacity:0}}
+/* idle rotation — small ranked panel while nothing is happening */
+#ovIdle{position:absolute;right:28px;bottom:24px;background:rgba(18,22,27,.92);border:1px solid var(--line);padding:10px 16px;min-width:220px;display:none}
+#ovIdle.on{display:block}
+#ovIdle .it{font-family:var(--disp);font-weight:600;letter-spacing:.18em;font-size:11px;color:var(--amber);margin-bottom:6px}
+#ovIdle .ir{display:flex;justify-content:space-between;gap:14px;font-size:13px;color:var(--dim);padding:1px 0}
+#ovIdle .ir b{font-family:var(--disp);letter-spacing:.03em}
+/* roulette */
+#ovRoul{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px}
+#ovRoul.on{display:flex}
+#ovRoul .rn{font-family:var(--disp);font-weight:700;font-size:64px;letter-spacing:.05em;text-shadow:0 2px 20px rgba(0,0,0,.7)}
+#ovRoul .rt{font-family:var(--disp);font-weight:600;letter-spacing:.3em;font-size:14px;color:var(--amber)}
+#ovRoul.done .rn{animation:slam .3s cubic-bezier(.2,2.2,.4,1)}
+
 #ovStage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
 #ovStage .shot{position:relative;text-align:center;animation:stagein 2.6s forwards}
 #ovStage .snm{font-family:var(--disp);font-weight:700;font-size:76px;letter-spacing:.05em;text-shadow:0 2px 20px rgba(0,0,0,.7)}
@@ -305,7 +346,7 @@ body.ov #ovroot{display:block}
     <a href="https://deadcoast.net" target="_blank" rel="noopener" title="Developer's website" aria-label="Developer's website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z"/></svg></a>
     <a href="https://www.instagram.com/deadcoast_" target="_blank" rel="noopener" title="Graphic design — Instagram" aria-label="Graphic design — Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162s6.162-2.76 6.162-6.162c0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg></a>
   </div>
-  <div class="ver">chatterSCATTER · v1.0</div>
+  <div class="ver">chatterSCATTER · v1.2</div>
 </div>
 
 <!-- ================= DASHBOARD ================= -->
@@ -321,6 +362,7 @@ body.ov #ovroot{display:block}
     </select>
     <button id="btnSim" title="Toggle fake chat for testing" data-tip="Toggle fake chat so you can rehearse CTAs, shots and the overlay without going live.">Demo chat: off</button>
     <button id="btnOv" data-tip="Opens the clean broadcast window. Capture it in OBS to put the game on stream.">Open overlay window</button>
+    <button id="btnRec" data-tip="All-time records for this channel — totals, best streak, top XP, and the fallen (hardcore).">Records</button>
     <button id="btnHelp" data-tip="Step-by-step walkthrough for putting the overlay on stream in OBS.">OBS setup</button>
     <button id="btnLeave" data-tip="Disconnect and pick a different channel. Chatters are saved per channel.">Change channel</button>
   </header>
@@ -333,6 +375,9 @@ body.ov #ovroot{display:block}
       <label>DEF <input id="ctaDef" type="number" value="25" step="5"></label>
       <label data-tip="How long chat gets to respond once you start.">Time
         <select id="ctaDur"><option value="30">30s</option><option value="60" selected>60s</option><option value="90">90s</option><option value="120">120s</option></select>
+      </label>
+      <label data-tip="CTA variant. FIRST 10 — only the fastest ten earn DEF. DOUBLE OR NOTHING — double DEF on success, failures lose their whole DEF stack. SUDDEN DEATH — everyone starts OPEN until they type it.">Mode
+        <select id="ctaMode"><option value="std">STANDARD</option><option value="first10">FIRST 10</option><option value="dbl">DOUBLE OR NOTHING</option><option value="sudden">SUDDEN DEATH</option></select>
       </label>
       <button class="primary" id="btnCta" data-tip="Starts the countdown. The demand and timer appear on the overlay for chat to see.">Start CTA</button>
     </div>
@@ -382,10 +427,20 @@ body.ov #ovroot{display:block}
         <button class="ga" id="gaUnpin" data-tip="Remove the whole current filter from your PIN list.">Unpin all</button>
         <button class="ga" id="gaUndo" data-tip="Revert the last group action. Two steps kept — trimmed to one for very large groups.">Undo</button>
         <button class="ga" id="gaRedo" data-tip="Re-apply the last undone group action.">Redo</button>
+        <button class="ga" id="gaRand" data-tip="Mark a random living chatter from the current filter — the overlay spins through names before landing.">Random</button>
+        <select id="bountySel" style="padding:5px 6px;font-size:11px" data-tip="Who to mark as BOUNTY. Hand-pick individuals from their card menu. NEXT CTA arms it — whoever secures the next CTA becomes bountied.">
+          <option value="top5">BOUNTY: TOP 5</option><option value="top10">BOUNTY: TOP 10</option><option value="top15">BOUNTY: TOP 15</option><option value="top20">BOUNTY: TOP 20</option>
+          <option value="lastcta">BOUNTY: LAST CTA</option><option value="nextcta">BOUNTY: NEXT CTA</option><option value="clear">CLEAR BOUNTIES</option>
+        </select>
+        <button class="ga" id="gaBounty" style="color:var(--bounty)" data-tip="Apply the selected bounty group. Bountied chatters who secure the next CTA cash out big XP — failures are yours to sentence.">Mark</button>
       </div>
       <div id="pinlist" style="display:none" data-tip="PIN — the highest-priority list. Only chatters you manually pin land here. Sits above Big Iron.">
         <span class="eyebrow">PIN</span>
         <div id="ppinrow"></div>
+      </div>
+      <div id="bountylist" style="display:none" data-tip="BOUNTIES — marked chatters. Securing the next CTA cashes out +100 XP; failing leaves their fate to you.">
+        <span class="eyebrow">BOUNTIES</span>
+        <div id="bountyrow"></div>
       </div>
       <div id="bigiron" style="display:none" data-tip="Big Iron — your engaged targets. Anyone you shoot at lands here automatically and always shows full detail.">
         <span class="eyebrow">BIG IRON</span>
@@ -403,6 +458,10 @@ body.ov #ovroot{display:block}
           <select id="bgSel"><option value="dark">Dark panel</option><option value="green">Chroma green</option><option value="magenta">Chroma magenta</option></select>
         </div>
         <div class="srow"><label data-tip="Extra emote words to count in TOP EMOTES, separated by commas. For emotes that aren't on 7TV, BTTV or FFZ.">Also track emotes</label><input id="customEmo" placeholder="word, word, word" style="width:150px;font-size:11px" spellcheck="false"></div>
+        <div class="srow"><label data-tip="HARDCORE: one life. Death is permanent — the fallen character is logged, and when that chatter talks again they're reborn as a fresh character under a new CHONKID (zero XP, zero points). Restore fallen characters from Records.">Hardcore</label>
+          <select id="hcSel"><option value="off">Off</option><option value="on">On</option></select>
+        </div>
+        <div class="srow"><label data-tip="This channel's full save — chatters, records, the fallen — as a .scatter.json file. Import replaces the current save.">Data</label><button id="btnExp" data-tip="Download this channel's save as a .scatter.json file.">Export</button><button id="btnImp" data-tip="Load a .scatter.json save — replaces this channel's current data.">Import</button><input type="file" id="impFile" accept=".json,application/json" hidden></div>
         <div class="srow"><label data-tip="Every chatter this channel has ever seen — HP, DEF, XP and points, saved in this browser.">All chatters</label><button id="btnWipe" data-tip="Delete every saved chatter for this channel — HP, XP and points included. Cannot be undone.">Wipe all</button></div>
       </div>
     </div>
@@ -424,10 +483,22 @@ body.ov #ovroot{display:block}
   <br><br><button class="primary" id="btnHelpX">Got it</button>
 </div></div>
 
+<div id="records"><div class="box">
+  <h2 class="eyebrow" style="font-size:14px">RECORDS</h2>
+  <div class="recgrid" id="recgrid"></div>
+  <div id="fallenwrap" style="display:none">
+    <h2 class="eyebrow" style="font-size:12px;color:var(--pin)">THE FALLEN</h2>
+    <div id="fallen"></div>
+  </div>
+  <br><button class="primary" id="btnRecX">Close</button>
+</div></div>
+
 <!-- ================= OVERLAY ================= -->
 <div id="ovroot">
-  <div id="ovCta"><span class="t1">TYPE <b id="ovEmote"></b> OR GET SCOPED</span><span class="clk" id="ovClock">0:60</span><span class="sec" id="ovSec">0 SECURED</span></div>
+  <div id="ovCta"><span id="ovUrg"></span><span class="t1">TYPE <b id="ovEmote"></b> OR GET SCOPED</span><span class="clk" id="ovClock">0:60</span><span class="sec" id="ovSec">0 SECURED</span></div>
   <div id="ovStage"></div>
+  <div id="ovRoul"><div class="rt">MARKING TARGET</div><div class="rn" id="ovRoulN">—</div></div>
+  <div id="ovIdle"></div>
   <div id="ovFeed"></div>
 </div>
 
@@ -449,15 +520,33 @@ if(OVERLAY){
   document.getElementById("app").remove();
   document.getElementById("menu").remove();
   document.getElementById("help").remove();
-  let clockEnd=0;
-  setInterval(()=>{ if($("#ovCta").classList.contains("on")) $("#ovClock").textContent=mmss(clockEnd-now()); },250);
+  document.getElementById("records").remove();
+  let clockEnd=0, idle=null, idleIx=0, roulT=null;
+  setInterval(()=>{
+    const ctaOn=$("#ovCta").classList.contains("on");
+    if(ctaOn){
+      const left=clockEnd-now();
+      $("#ovClock").textContent=mmss(left);
+      $("#ovUrg").classList.toggle("on",left<=10000&&left>0);
+    }
+    $("#ovIdle").classList.toggle("on",!ctaOn&&!!idle&&!$("#ovRoul").classList.contains("on"));
+  },250);
+  const IDLE_T=[["TOP XP","xp"],["LONGEST STREAK","stk"],["MOST WASTED","ded"]];
+  function drawIdle(){
+    if(!idle) return;
+    const [title,key]=IDLE_T[idleIx%3];
+    const rows=(idle[key]||[]).map(r=>`<div class="ir"><b style="color:${esc(r.c)}">${esc(r.n)}</b><span>${r.v}</span></div>`).join("");
+    $("#ovIdle").innerHTML=`<div class="it">${title}</div>${rows||'<div class="ir">—</div>'}`;
+  }
+  setInterval(()=>{ idleIx++; drawIdle(); },8000);
   window.addEventListener("message",e=>{
     const m=e.data; if(!m||!m.t) return;
     if(m.t==="s"){ // snapshot
       document.body.className="ov"+(m.bg&&m.bg!=="dark"?" bg-"+m.bg:"");
       if(m.cta){ $("#ovCta").classList.add("on"); $("#ovEmote").textContent=m.cta.emote; $("#ovSec").textContent=m.cta.got+" SECURED"; clockEnd=m.cta.end; }
-      else $("#ovCta").classList.remove("on");
+      else{ $("#ovCta").classList.remove("on"); $("#ovUrg").classList.remove("on"); }
       $("#ovFeed").innerHTML=(m.feed||[]).map(f=>`<div class="e ${f.cls||""}">${f.html}</div>`).join("");
+      if(m.idle){ idle=m.idle; drawIdle(); }
     }
     if(m.t==="e"){ // shot event -> center stage
       const st=$("#ovStage"); st.innerHTML="";
@@ -465,9 +554,28 @@ if(OVERLAY){
       d.className="shot"+(m.dead?" dead":"");
       d.innerHTML=`<div class="snm" style="color:${esc(m.color||"#d7dde3")}">${esc(m.name)}</div>
         <div class="sstamp ${m.kind}">${m.kind.toUpperCase()}</div>
-        ${m.dmg?`<div class="sdmg">-${m.dmg}</div>`:""}`;
+        ${m.dmg?`<div class="sdmg">-${m.dmg}${m.streak?` · STREAK ×${m.streak} BROKEN`:""}</div>`:m.streak?`<div class="sdmg">STREAK ×${m.streak} BROKEN</div>`:""}`;
       st.appendChild(d);
       setTimeout(()=>{ if(d.parentNode) d.remove(); },2700);
+    }
+    if(m.t==="r"){ // roulette
+      clearInterval(roulT);
+      const box=$("#ovRoul"), nm=$("#ovRoulN");
+      box.classList.add("on"); box.classList.remove("done");
+      let i=0, delay=70;
+      const names=m.names||[];
+      const spin=()=>{
+        const p=names[i++%names.length]||m.final;
+        nm.textContent=p.n; nm.style.color=p.c||"#d7dde3";
+        delay*=1.09;
+        if(delay<400) roulT=setTimeout(spin,delay);
+        else{
+          nm.textContent=m.final.n; nm.style.color=m.final.c||"#d7dde3";
+          box.classList.add("done");
+          setTimeout(()=>box.classList.remove("on"),2200);
+        }
+      };
+      spin();
     }
   });
   if(window.opener) window.opener.postMessage({t:"ready"},"*");
@@ -481,7 +589,9 @@ const BOTS=new Set(["nightbot","streamelements","streamlabs","moobot","fossabot"
 const LS_SET="pickoff:settings";
 let S={
   channel:null, roomId:null, chatters:{}, order:[], cta:null, feed:[], emotes:{},
-  settings:Object.assign({bg:"dark",vol:.8,sndName:null,sndData:null},JSON.parse(localStorage.getItem(LS_SET)||"{}"))
+  global:{miss:0,hit:0,crit:0,wasted:0,ctas:0,secured:0,exposed:0,bounty:0},
+  graveyard:[], lastSecured:[], bountyNext:false,
+  settings:Object.assign({bg:"dark",vol:.8,sndName:null,sndData:null,hardcore:false},JSON.parse(localStorage.getItem(LS_SET)||"{}"))
 };
 let ws=null, ovWin=null, simTimer=null, ctaTimer=null, wantReconnect=false;
 
@@ -489,7 +599,7 @@ let ws=null, ovWin=null, simTimer=null, ctaTimer=null, wantReconnect=false;
 const lsKey=()=>"pickoff:roster:"+S.channel;
 let saveT=null;
 function save(){ if(saveT) return; saveT=setTimeout(()=>{ saveT=null;
-  if(S.channel) try{ localStorage.setItem(lsKey(),JSON.stringify({chatters:S.chatters,order:S.order})); }catch(e){}
+  if(S.channel) try{ localStorage.setItem(lsKey(),JSON.stringify({chatters:S.chatters,order:S.order,global:S.global,graveyard:S.graveyard})); }catch(e){}
 },1200); }
 function saveSettings(){ try{ localStorage.setItem(LS_SET,JSON.stringify(S.settings)); }catch(e){
   const {sndData,...rest}=S.settings; try{ localStorage.setItem(LS_SET,JSON.stringify(rest)); }catch(_){}
@@ -539,8 +649,12 @@ $("#feed").addEventListener("click",e=>{
   entry.open=!entry.open; renderFeed();
 });
 function snapshot(){
+  const top5=(key,fmt)=>S.order.map(l=>S.chatters[l]).filter(c=>(c[key]||0)>0)
+    .sort((a,b)=>(b[key]||0)-(a[key]||0)).slice(0,5)
+    .map(c=>({n:c.n,c:c.c,v:fmt?fmt(c):c[key]}));
   return {t:"s",bg:S.settings.bg,
     cta:S.cta?{emote:S.cta.emote,end:S.cta.end,got:S.cta.got}:null,
+    idle:{xp:top5("xp"),stk:top5("best",c=>"×"+c.best),ded:top5("deaths",c=>"×"+c.deaths)},
     feed:S.feed.slice(0,5).map(f=>({html:f.html,cls:f.cls}))};
 }
 function pushState(){ if(ovWin&&!ovWin.closed) ovWin.postMessage(snapshot(),"*"); }
@@ -574,12 +688,26 @@ async function loadEmoteLists(id){
 }
 
 /* ---------- chatters ---------- */
+/* CHONKID — the character genome. A chatter's USERNAME is their account;
+   their CHONK is the life they're currently living. Hardcore death ends
+   the CHONK; the username returns as a fresh genome with zero history. */
+const chonkGen=()=>Array.from(crypto.getRandomValues(new Uint8Array(3))).map(b=>b.toString(16).padStart(2,"0")).join("").toUpperCase();
 function chatter(login){
   if(!S.chatters[login]){
-    S.chatters[login]={n:login,c:"#d7dde3",hp:100,def:0,xp:0,pts:0,dead:false,open:false,ctaHit:false,lastXp:0,msgs:0,emo:0,pin:false,pinT:0,ppin:false,ppinT:0};
+    S.chatters[login]={n:login,c:"#d7dde3",hp:100,def:0,xp:0,pts:0,dead:false,open:false,ctaHit:false,lastXp:0,msgs:0,emo:0,pin:false,pinT:0,ppin:false,ppinT:0,bounty:false,streak:0,best:0,deaths:0,lives:1,chonk:chonkGen()};
     S.order.push(login);
   }
   return S.chatters[login];
+}
+function onDeath(login,c){
+  c.deaths=(c.deaths||0)+1;
+  const broken=(c.streak||0)>=10?c.streak:0;
+  c.streak=0; c.bounty=false;
+  if(S.settings.hardcore){
+    S.graveyard.unshift({login,name:c.n,chonk:c.chonk,xp:c.xp,pts:c.pts,best:c.best||0,t:now()});
+    S.graveyard.length=Math.min(S.graveyard.length,200);
+  }
+  return broken;
 }
 const lvl=c=>1+Math.floor(c.xp/100);
 
@@ -587,6 +715,11 @@ function onChat(login,name,color,msg,emotes){
   if(BOTS.has(login)) return;
   const c=chatter(login);
   if(name) c.n=name; if(color) c.c=color;
+  if(c.dead&&S.settings.hardcore){ // one life ended — same account, new genome
+    c.lives=(c.lives||1)+1; c.chonk=chonkGen();
+    c.hp=100; c.def=0; c.xp=0; c.pts=0; c.streak=0; c.dead=false; c.open=false; c.bounty=false; c.ctaHit=false;
+    feed(`${NL(login)} reborn — CHONK <b>${c.chonk}</b> · life ${c.lives}`,"amb");
+  }
   c.msgs=(c.msgs||0)+1;
   let ec=0;
   if(emotes){ for(const en of emotes){ S.emotes[en]=(S.emotes[en]||0)+1; ec++; } }
@@ -594,10 +727,14 @@ function onChat(login,name,color,msg,emotes){
   if(ec) c.emo=(c.emo||0)+ec;
   if(now()-c.lastXp>5000){ c.xp+=2; c.lastXp=now(); }
   if(S.cta && !c.ctaHit && !c.dead && msg.toLowerCase().includes(S.cta.emote.toLowerCase())){
-    c.ctaHit=true; c.open=false; c.def+=S.cta.defv; c.xp+=25; c.pts+=10; S.cta.got++;
-    $("#ctaGot").textContent=S.cta.got+" secured";
-    feed(`${NL(login)} secured &nbsp;+${S.cta.defv} DEF`,"arm");
-    fxOnCard(login,"def","+"+S.cta.defv+" DEF","anim-sec");
+    c.ctaHit=true; c.open=false;
+    const capped=S.cta.mode==="first10"&&S.cta.got>=10;
+    if(!capped){
+      c.def+=S.cta.defv; c.xp+=25; c.pts+=10; S.cta.got++;
+      $("#ctaGot").textContent=S.cta.got+" secured";
+      feed(`${NL(login)} secured &nbsp;+${S.cta.defv} DEF`,"arm");
+      fxOnCard(login,"def","+"+S.cta.defv+" DEF","anim-sec");
+    }
   }
   save(); render();
 }
@@ -606,26 +743,50 @@ function onChat(login,name,color,msg,emotes){
 function startCta(){
   const emote=$("#ctaEmote").value.trim();
   if(!emote){ $("#ctaEmote").focus(); return; }
-  const defv=parseInt($("#ctaDef").value,10)||25;
+  const mode=$("#ctaMode").value;
+  let defv=parseInt($("#ctaDef").value,10)||25;
+  if(mode==="dbl") defv*=2;
   const dur=parseInt($("#ctaDur").value,10)*1000;
   Object.values(S.chatters).forEach(c=>c.ctaHit=false);
-  S.cta={emote,defv,end:now()+dur,got:0};
+  if(mode==="sudden") Object.values(S.chatters).forEach(c=>{ if(!c.dead) c.open=true; });
+  S.cta={emote,defv,end:now()+dur,got:0,mode};
+  S.global.ctas++;
   $("#ctaSetup").classList.add("off"); $("#ctaLive").classList.add("on");
   $("#ctaWhat").querySelector("b").textContent=emote;
   $("#ctaGot").textContent="0 secured";
-  feed(`CTA live — type <b>${esc(emote)}</b> for +${defv} DEF`,"amb");
+  const modeNote={first10:" — FIRST 10 ONLY",dbl:" — DOUBLE OR NOTHING",sudden:" — SUDDEN DEATH, everyone OPEN"}[mode]||"";
+  feed(`CTA live — type <b>${esc(emote)}</b> for +${defv} DEF${modeNote}`,"amb");
   ctaTimer=setInterval(()=>{
     const left=S.cta.end-now();
     $("#ctaClock").textContent=mmss(left);
+    $("#ctaClock").style.color=left<=10000?"var(--hot)":"";
     if(left<=0) endCta();
   },250);
+  if(mode==="sudden"){ save(); render(); }
   pushState();
 }
 function endCta(){
   clearInterval(ctaTimer); ctaTimer=null;
-  const exposed=Object.values(S.chatters).filter(c=>!c.dead&&!c.ctaHit);
-  exposed.forEach(c=>c.open=true);
-  feed(`CTA over — <b>${S.cta.got} secured</b>, <b>${exposed.length} exposed</b> to critical fire`,"hot");
+  $("#ctaClock").style.color="";
+  const mode=S.cta.mode, det=[];
+  const responders=[], exposed=[];
+  for(const l of S.order){ const c=S.chatters[l];
+    if(c.dead) continue;
+    if(c.ctaHit){ responders.push(l); c.streak=(c.streak||0)+1; c.best=Math.max(c.best||0,c.streak); }
+    else{ exposed.push(l); c.streak=0; c.open=true; if(mode==="dbl"&&c.def){ det.push(`${NL(l)} — DEF stack wiped (-${c.def})`); c.def=0; } }
+  }
+  /* bounty resolution */
+  const claimed=[];
+  for(const l of S.order){ const c=S.chatters[l];
+    if(!c.bounty||c.dead) continue;
+    if(c.ctaHit){ c.xp+=100; c.pts+=25; c.bounty=false; S.global.bounty++; claimed.push(`${NL(l)} — bounty claimed, +100 XP`); }
+  }
+  if(S.bountyNext){ responders.forEach(l=>{S.chatters[l].bounty=true;}); S.bountyNext=false;
+    if(responders.length) feed(`BOUNTY NEXT resolved — <b>${responders.length}</b> marked`,"amb"); }
+  S.lastSecured=responders.slice();
+  S.global.secured+=S.cta.got; S.global.exposed+=exposed.length;
+  if(claimed.length) feed(`BOUNTIES — <b>${claimed.length}</b> cashed out`,"amb",claimed);
+  feed(`CTA over — <b>${S.cta.got} secured</b>, <b>${exposed.length} exposed</b> to critical fire`,"hot",det.length?det:null);
   S.cta=null;
   $("#ctaSetup").classList.remove("off"); $("#ctaLive").classList.remove("on");
   save(); render(); pushState();
@@ -640,22 +801,23 @@ function applyDmg(c,dmg){
 function shot(login,kind){
   const c=S.chatters[login]; if(!c) return;
   if(!c.pin){ c.pin=true; c.pinT=now(); draw(); } // engaged in the pickoff -> auto Big Iron
-  let dmg=0,dead=false;
+  S.global[kind]=(S.global[kind]||0)+1;
+  let dmg=0,dead=false,broken=0;
   if(kind==="miss"){ c.xp+=10; feed(`shot on ${NL(login)} — MISS`,""); fxOnCard(login,"miss","MISS","anim-dodge"); }
   if(kind==="hit"){ dmg=25; applyDmg(c,dmg);
-    if(c.dead){ dead=true; playShot(); feed(`${NL(login)} down — hit finished them`,"hot"); }
+    if(c.dead){ dead=true; broken=onDeath(login,c); playShot(); feed(`${NL(login)} down — hit finished them`,"hot"); }
     else { c.xp+=15; c.pts+=5; feed(`${NL(login)} tagged — -25`,"hot"); }
     fxOnCard(login,"hit","-25",dead?"anim-fall":"anim-shake");
   }
   if(kind==="crit"){ dmg=50; c.open=false; applyDmg(c,dmg);
-    if(c.dead){ dead=true; playShot(); feed(`CRITICAL — ${NL(login)} deleted`,"hot"); }
+    if(c.dead){ dead=true; broken=onDeath(login,c); playShot(); feed(`CRITICAL — ${NL(login)} deleted`,"hot"); }
     else { c.xp+=40; c.pts+=10; feed(`CRITICAL on ${NL(login)} — -50, still standing`,"hot"); }
     fxOnCard(login,"crit","-50",dead?"anim-fall":"anim-shake");
   }
-  if(kind==="wasted"){ dmg=c.hp; c.hp=0; c.def=0; c.dead=true; dead=true; playShot();
-    feed(`${NL(login)} — WASTED`,"hot"); fxOnCard(login,"crit","WASTED","anim-fall");
+  if(kind==="wasted"){ dmg=c.hp; c.hp=0; c.def=0; c.dead=true; dead=true; broken=onDeath(login,c); playShot();
+    feed(`${NL(login)} — WASTED${broken?` · <b>${broken}-CTA streak broken</b>`:""}`,"hot"); fxOnCard(login,"crit","WASTED","anim-fall");
   }
-  pushEvent({t:"e",kind:dead&&kind!=="wasted"?kind:kind,name:c.n,color:c.c,dmg:dmg||null,dead});
+  pushEvent({t:"e",kind,name:c.n,color:c.c,dmg:dmg||null,dead,streak:broken||undefined});
   save();
 }
 function revive(login){ const c=S.chatters[login]; c.hp=100; c.def=0; c.dead=false; c.open=false;
@@ -691,12 +853,13 @@ function groupAct(kind){
   let n=0,down=0; const det=[];
   for(const l of sel){ const c=S.chatters[l];
     if(kind==="hit"&&!c.dead){
-      const ab=applyDmg(c,25); n++;
-      if(c.dead){ down++; det.push(`${NL(l)} — -25 · <b>WASTED</b>`); }
+      const ab=applyDmg(c,25); n++; S.global.hit++;
+      if(c.dead){ down++; onDeath(l,c); det.push(`${NL(l)} — -25 · <b>WASTED</b>`); }
       else det.push(`${NL(l)} — -25 (${ab} DEF · ${25-ab} HP) → ${c.hp} HP`);
     }
-    else if(kind==="heal"&&(c.hp<100||c.dead||c.open)){
+    else if(kind==="heal"&&(c.hp<100||c.open||(c.dead&&!S.settings.hardcore))){
       const was=c.hp, wasDead=c.dead;
+      if(c.dead&&S.settings.hardcore) continue; // hardcore: the dead stay dead
       c.hp=100; c.dead=false; c.open=false; n++;
       det.push(`${NL(l)} — +${100-was} → 100 HP${wasDead?" · <b>revived</b>":""}`);
     }
@@ -730,14 +893,109 @@ function doRedo(){
   save(); draw(); updateUndoUI();
 }
 
+/* ---------- bounties ---------- */
+function markBounty(){
+  const v=$("#bountySel").value;
+  if(v==="clear"){ let k=0; S.order.forEach(l=>{const c=S.chatters[l]; if(c.bounty){c.bounty=false;k++;}});
+    S.bountyNext=false; feed(`Bounties cleared (${k})`,""); save(); draw(); return; }
+  if(v==="nextcta"){ S.bountyNext=true;
+    feed(`BOUNTY armed — whoever secures the next CTA gets marked`,"amb"); return; }
+  let list=[];
+  if(v.startsWith("top")){ const n=parseInt(v.slice(3),10);
+    list=S.order.slice().sort((a,b)=>(S.chatters[b].msgs||0)-(S.chatters[a].msgs||0)).slice(0,n); }
+  if(v==="lastcta") list=S.lastSecured.slice();
+  const det=[];
+  for(const l of list){ const c=S.chatters[l]; if(c&&!c.dead&&!c.bounty){ c.bounty=true; det.push(NL(l)); } }
+  if(det.length) feed(`BOUNTY — <b>${det.length}</b> marked`,"amb",det);
+  else feed("No new bounties from that group","");
+  save(); draw();
+}
+
+/* ---------- random target ---------- */
+function randomMark(){
+  const pool=filteredLogins().filter(l=>!S.chatters[l].dead);
+  if(!pool.length) return;
+  const pick=pool[Math.floor(Math.random()*pool.length)];
+  const sample=[];
+  for(let i=0;i<Math.min(18,pool.length);i++){
+    const l=pool[Math.floor(Math.random()*pool.length)];
+    sample.push({n:S.chatters[l].n,c:S.chatters[l].c});
+  }
+  const c=S.chatters[pick];
+  pushEvent({t:"r",names:sample,final:{n:c.n,c:c.c}});
+  feed(`Random mark — ${NL(pick)}`,"amb");
+  setTimeout(()=>openMenu(pick,Math.max(20,innerWidth/2-115),Math.max(60,innerHeight/3)),1200);
+}
+
+/* ---------- records ---------- */
+function openRecords(){
+  const g=S.global, chs=S.order.map(l=>S.chatters[l]);
+  const shots=g.miss+g.hit+g.crit+g.wasted;
+  const kills=chs.reduce((a,c)=>a+(c.deaths||0),0);
+  const pickTop=(key)=>chs.reduce((a,c)=>((c[key]||0)>((a&&a[key])||0))?c:a,null);
+  const bestC=pickTop("best"), topX=pickTop("xp"), mostD=pickTop("deaths");
+  const row=(k,v)=>`<div class="r"><span>${k}</span><b>${v}</b></div>`;
+  $("#recgrid").innerHTML=[
+    row("SHOTS FIRED",shots),row("WASTED (kills)",kills),
+    row("MISS",g.miss),row("HIT",g.hit),
+    row("CRITICAL",g.crit),row("WASTE'EM",g.wasted),
+    row("CTAs RUN",g.ctas),row("SECURED",g.secured),
+    row("EXPOSED",g.exposed),row("BOUNTIES CLAIMED",g.bounty),
+    row("BEST STREAK",bestC&&bestC.best?`${esc(bestC.n)} ×${bestC.best}`:"—"),
+    row("TOP XP",topX&&topX.xp?`${esc(topX.n)} · ${topX.xp}`:"—"),
+    row("MOST WASTED",mostD&&mostD.deaths?`${esc(mostD.n)} ×${mostD.deaths}`:"—"),
+    row("FALLEN CHONKS",S.graveyard.length)
+  ].join("");
+  $("#fallenwrap").style.display=S.graveyard.length?"":"none";
+  $("#fallen").innerHTML=S.graveyard.map((f,i)=>
+    `<div class="fr"><span><b style="color:var(--ink)">${esc(f.name)}</b> · <span class="chid">CHONK ${esc(f.chonk)}</span> · ${f.xp} XP · ${f.pts} PTS${f.best?` · best ×${f.best}`:""}</span><button data-g="${i}" data-tip="Restore this fallen character — stats and CHONKID return to the chatter, alive at 100 HP.">RESTORE</button></div>`
+  ).join("");
+  $("#records").classList.add("on");
+}
+function restoreFallen(i){
+  const f=S.graveyard[i]; if(!f) return;
+  const c=chatter(f.login);
+  c.n=f.name; c.chonk=f.chonk; c.xp=f.xp; c.pts=f.pts; c.best=Math.max(c.best||0,f.best||0);
+  c.hp=100; c.def=0; c.dead=false; c.open=false; c.streak=0;
+  S.graveyard.splice(i,1);
+  feed(`${NL(f.login)} restored — CHONK <b>${f.chonk}</b> back from the fallen`,"arm");
+  save(); draw(); openRecords();
+}
+
+/* ---------- export / import ---------- */
+function exportData(){
+  const data={app:"chatterSCATTER",format:1,channel:S.channel,exported:new Date().toISOString(),
+    chatters:S.chatters,order:S.order,global:S.global,graveyard:S.graveyard};
+  const blob=new Blob([JSON.stringify(data)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=`${S.channel}.scatter.json`; a.click();
+  URL.revokeObjectURL(a.href);
+  feed(`Exported <b>${S.order.length}</b> chatters → ${esc(S.channel)}.scatter.json`,"amb");
+}
+function importData(file){
+  const r=new FileReader();
+  r.onload=()=>{ try{
+    const j=JSON.parse(r.result);
+    if(j.app!=="chatterSCATTER"||!j.chatters||!j.order) throw 0;
+    const note=j.channel&&j.channel!==S.channel?` (exported from #${j.channel})`:"";
+    if(!confirm(`Import ${j.order.length} chatters${note}? This replaces the current save for #${S.channel}.`)) return;
+    S.chatters=j.chatters; S.order=j.order;
+    S.global=Object.assign({miss:0,hit:0,crit:0,wasted:0,ctas:0,secured:0,exposed:0,bounty:0},j.global||{});
+    S.graveyard=j.graveyard||[];
+    Object.values(S.chatters).forEach(c=>{c.ctaHit=false;c.msgs=0;c.emo=0;c.bounty=false;c.chonk=c.chonk||chonkGen();c.streak=c.streak||0;c.best=c.best||0;c.deaths=c.deaths||0;c.lives=c.lives||1;});
+    save(); draw(); feed(`Imported <b>${S.order.length}</b> chatters`,"arm");
+  }catch(_){ feed("Import failed — not a chatterSCATTER save","hot"); } };
+  r.readAsText(file);
+}
+
 /* ---------- render ---------- */
 let raf=false,renderT=null;
 const tier=n=>n>600?3:n>160?2:n>40?1:0;
 const hpSegs=c=>[0,1,2,3].map(i=>{const f=c.hp-(i*25);return `<i class="${f>=25?"f":f>0?"h":""}"></i>`;}).join("");
 function cardHTML(l,T){
   const c=S.chatters[l];
-  if(c.ppin||c.pin) T=0;
-  const cls=`card hud ${c.ppin?"ppinned":c.pin?"pinned":""} ${c.dead?"dead":""} ${c.open&&!c.dead?"open":""}`;
+  if(c.ppin||c.pin||c.bounty) T=0;
+  const cls=`card hud ${c.ppin?"ppinned":c.bounty?"bountied":c.pin?"pinned":""} ${c.dead?"dead":""} ${c.open&&!c.dead?"open":""}`;
   const nm=`<span class="nm" style="color:${esc(c.c)}" id="nm-${esc(l)}">${esc(c.n)}</span>`;
   const stamp=c.dead?'<div class="wstamp">WASTED</div>':"";
   const mdef=(T>0&&c.def&&!c.dead)?`<span class="mdef" title="${c.def} DEF"></span>`:"";
@@ -745,7 +1003,7 @@ function cardHTML(l,T){
       ${nm}
       <div class="row2"><div class="hp">${hpSegs(c)}</div><span class="hpn">${c.hp}</span></div>
       <div class="row3">
-        <span class="lvl">LVL ${lvl(c)}</span><span>${c.xp} XP</span><span>${c.pts} PTS</span>
+        <span class="lvl">LVL ${lvl(c)}</span><span>${c.xp} XP</span><span>${c.pts} PTS</span>${(c.streak||0)>=2?`<span class="stk" title="CTA streak">×${c.streak}</span>`:""}
         <span class="grow" style="flex:1"></span>
         ${c.def?`<div class="defchips" title="${c.def} DEF">${'<i></i>'.repeat(Math.min(8,Math.ceil(c.def/25)))}</div>`:""}
         ${c.dead?"":c.open?'<span class="tag open">OPEN</span>':c.ctaHit&&S.cta!==null?'<span class="tag sec">SECURED</span>':""}
@@ -782,10 +1040,13 @@ function draw(){
   const ppins=S.order.filter(l=>S.chatters[l].ppin).sort((a,b)=>S.chatters[b].ppinT-S.chatters[a].ppinT);
   $("#pinlist").style.display=ppins.length?"":"none";
   $("#ppinrow").innerHTML=ppins.map(l=>cardHTML(l,0)).join("");
-  const pinned=S.order.filter(l=>S.chatters[l].pin&&!S.chatters[l].ppin).sort((a,b)=>S.chatters[b].pinT-S.chatters[a].pinT);
+  const bounties=S.order.filter(l=>S.chatters[l].bounty&&!S.chatters[l].ppin);
+  $("#bountylist").style.display=bounties.length?"":"none";
+  $("#bountyrow").innerHTML=bounties.map(l=>cardHTML(l,0)).join("");
+  const pinned=S.order.filter(l=>{const c=S.chatters[l];return c.pin&&!c.ppin&&!c.bounty;}).sort((a,b)=>S.chatters[b].pinT-S.chatters[a].pinT);
   $("#bigiron").style.display=pinned.length?"":"none";
   $("#pinrow").innerHTML=pinned.map(l=>cardHTML(l,0)).join("");
-  let logins=by==="bigiron"?list.slice():list.filter(l=>!S.chatters[l].pin&&!S.chatters[l].ppin);
+  let logins=by==="bigiron"?list.slice():list.filter(l=>{const c=S.chatters[l];return !c.pin&&!c.ppin&&!c.bounty;});
   logins.sort((a,b)=>(S.chatters[a].dead?1:0)-(S.chatters[b].dead?1:0));
   const g=$("#grid"), T=tier(S.order.length);
   g.dataset.d=T;
@@ -835,9 +1096,15 @@ function openMenu(l,x,y){
   <div class="det">
     <div class="drow"><div class="hp">${hpSegs(c)}</div><span class="hpn">${c.hp} HP</span></div>
     <div class="drow"><span class="lvl">LVL ${lvl(c)}</span><span>${c.xp} XP</span><span>${c.pts} PTS</span><span style="color:var(--armor)">${c.def} DEF</span></div>
+    <div class="drow"><span style="color:var(--pin)">CHONK ${esc(c.chonk||"—")}</span><span>streak ×${c.streak||0}</span><span>best ×${c.best||0}</span>${(c.deaths||0)?`<span>died ×${c.deaths}</span>`:""}</div>
+    ${c.bounty?'<div class="drow"><span class="tag bty">BOUNTY</span></div>':""}
     ${c.dead?'<div class="drow"><span class="tag open">WASTED</span></div>':c.open?'<div class="drow"><span class="tag open">OPEN — CRIT AVAILABLE</span></div>':c.ctaHit&&S.cta!==null?'<div class="drow"><span class="tag sec">SECURED</span></div>':""}
   </div>`;
-  if(c.dead){ h+=`<button class="arm" data-a="revive" data-tip="Bring them back at 100 HP, alive.">REDEPLOY <small>100 HP</small></button>`; }
+  if(c.dead){
+    h+=S.settings.hardcore
+      ?`<button disabled data-tip="Hardcore — one life. This CHONK is gone; restore only from Records.">KIA <small>restore via Records</small></button>`
+      :`<button class="arm" data-a="revive" data-tip="Bring them back at 100 HP, alive.">REDEPLOY <small>100 HP</small></button>`;
+  }
   else{
     h+=`<button data-a="miss" data-tip="Declare the shot a miss — 0 damage, dodge animation, they live to lurk.">MISS <small>0 dmg</small></button>`;
     h+=`<button class="hot" data-a="hit" data-tip="-25 damage. Their DEF absorbs it before HP.">HIT <small>-25</small></button>`;
@@ -846,16 +1113,19 @@ function openMenu(l,x,y){
     h+=`<button class="arm" data-a="def" data-tip="Hand them +25 DEF on the house.">+DEF <small>+25</small></button>`;
   }
   h+=`<button data-a="ppin" style="color:var(--pin)" data-tip="PIN — the highest-priority list, manual placements only. Shows above Big Iron.">${c.ppin?"UNPIN":"PIN"} <small>${c.ppin?"remove":"priority"}</small></button>`;
+  if(!c.dead) h+=`<button data-a="bounty" style="color:var(--bounty)" data-tip="Mark them as a BOUNTY — securing the next CTA cashes out +100 XP; failing leaves their fate to you.">${c.bounty?"CLEAR BOUNTY":"BOUNTY"} <small>${c.bounty?"remove":"mark"}</small></button>`;
   if(c.pin) h+=`<button data-a="iron" data-tip="Take them off the Big Iron engagement row.">RELEASE IRON <small>unpin</small></button>`;
   menu.innerHTML=h; menu.classList.add("on");
   menu.style.left=Math.min(x,innerWidth-230)+"px";
-  menu.style.top=Math.min(y,innerHeight-(c.dead?230:400))+"px";
+  menu.style.top=Math.min(y,innerHeight-(c.dead?250:460))+"px";
   menu.onclick=ev=>{
     const a=ev.target.closest("button")?.dataset.a; if(!a) return;
     menu.classList.remove("on");
     if(a==="revive") revive(l);
     else if(a==="def") grantDef(l);
     else if(a==="ppin"){ const cc=S.chatters[l]; cc.ppin=!cc.ppin; cc.ppinT=now(); save(); draw(); }
+    else if(a==="bounty"){ const cc=S.chatters[l]; cc.bounty=!cc.bounty;
+      feed(cc.bounty?`BOUNTY — ${NL(l)} marked`:`Bounty cleared — ${NL(l)}`, cc.bounty?"amb":""); save(); draw(); }
     else if(a==="iron"){ S.chatters[l].pin=false; save(); draw(); }
     else shot(l,a);
   };
@@ -870,7 +1140,7 @@ document.addEventListener("click",e=>{ // any listed name, anywhere, opens the c
   if(lnk&&S.chatters[lnk.dataset.l]) openMenu(lnk.dataset.l,e.clientX,e.clientY);
 });
 document.addEventListener("click",e=>{ if(!e.target.closest("#menu")&&!e.target.closest(".card")&&!e.target.closest(".lnk")) menu.classList.remove("on"); });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ menu.classList.remove("on"); $("#help").classList.remove("on"); }});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ menu.classList.remove("on"); $("#help").classList.remove("on"); $("#records").classList.remove("on"); }});
 
 /* ---------- twitch IRC (anonymous, read-only) ---------- */
 function setDot(on){ $("#dot").classList.toggle("live",on); }
@@ -879,7 +1149,9 @@ function connect(ch){
   if(ch!=="demo") try{ localStorage.setItem("pickoff:lastch",ch); }catch(e){}
   try{ const saved=JSON.parse(localStorage.getItem(lsKey())||"null");
     if(saved){ S.chatters=saved.chatters||{}; S.order=saved.order||[];
-      Object.values(S.chatters).forEach(c=>{c.ctaHit=false;c.msgs=0;c.emo=0;c.pin=c.pin||false;c.pinT=c.pinT||0;c.ppin=c.ppin||false;c.ppinT=c.ppinT||0;}); }
+      S.global=Object.assign({miss:0,hit:0,crit:0,wasted:0,ctas:0,secured:0,exposed:0,bounty:0},saved.global||{});
+      S.graveyard=saved.graveyard||[];
+      Object.values(S.chatters).forEach(c=>{c.ctaHit=false;c.msgs=0;c.emo=0;c.bounty=false;c.pin=c.pin||false;c.pinT=c.pinT||0;c.ppin=c.ppin||false;c.ppinT=c.ppinT||0;c.streak=c.streak||0;c.best=c.best||0;c.deaths=c.deaths||0;c.lives=c.lives||1;c.chonk=c.chonk||chonkGen();}); }
   }catch(e){}
   $("#chName").textContent="#"+ch;
   $("#connect").style.display="none"; $("#app").classList.add("on");
@@ -1007,6 +1279,16 @@ $("#gaHeal").onclick=()=>groupAct("heal");
 $("#gaPin").onclick=()=>groupAct("pin");
 $("#gaUnpin").onclick=()=>groupAct("unpin");
 $("#gaUndo").onclick=doUndo; $("#gaRedo").onclick=doRedo;
+$("#gaRand").onclick=randomMark;
+$("#gaBounty").onclick=markBounty;
+$("#btnRec").onclick=openRecords;
+$("#btnRecX").onclick=()=>$("#records").classList.remove("on");
+$("#fallen").addEventListener("click",e=>{ const b=e.target.closest("button[data-g]"); if(b) restoreFallen(parseInt(b.dataset.g,10)); });
+$("#hcSel").onchange=e=>{ S.settings.hardcore=e.target.value==="on"; saveSettings();
+  feed(S.settings.hardcore?"HARDCORE on — one life. The dead return as fresh CHONKs.":"Hardcore off — REDEPLOY available again",S.settings.hardcore?"hot":""); };
+$("#btnExp").onclick=exportData;
+$("#btnImp").onclick=()=>$("#impFile").click();
+$("#impFile").onchange=e=>{ const f=e.target.files[0]; if(f) importData(f); e.target.value=""; };
 updateUndoUI();
 $("#btnSnd").onclick=()=>$("#sndFile").click();
 $("#sndFile").onchange=e=>{
@@ -1021,11 +1303,12 @@ $("#sndFile").onchange=e=>{
 $("#vol").oninput=e=>{ S.settings.vol=parseFloat(e.target.value); saveSettings(); };
 $("#btnTest").onclick=playShot;
 $("#bgSel").onchange=e=>{ S.settings.bg=e.target.value; saveSettings(); pushState(); };
-$("#btnWipe").onclick=()=>{ if(confirm("Delete every saved chatter for this channel? XP and points are lost.")){ S.chatters={}; S.order=[]; save(); render(); feed("All chatters wiped",""); } };
+$("#btnWipe").onclick=()=>{ if(confirm("Delete every saved chatter for this channel? XP and points are lost.")){ S.chatters={}; S.order=[]; S.graveyard=[]; S.global={miss:0,hit:0,crit:0,wasted:0,ctas:0,secured:0,exposed:0,bounty:0}; save(); render(); feed("All chatters wiped — records reset",""); } };
 $("#customEmo").oninput=e=>{ S.settings.customEmotes=e.target.value; saveSettings(); rebuildTP(); };
 /* restore settings UI */
 $("#vol").value=S.settings.vol;
 $("#bgSel").value=S.settings.bg;
+$("#hcSel").value=S.settings.hardcore?"on":"off";
 if(S.settings.sndName) $("#sndName").textContent=S.settings.sndName;
 if(S.settings.customEmotes){ $("#customEmo").value=S.settings.customEmotes; rebuildTP(); }
 /* home QOL: last channel prefilled, input ready to type */
