@@ -20,17 +20,15 @@
 
 ## DEV NOTES
 
-CURRENT_WORKING_STATE:
+APP_STATE:
 
-- The format in the application is operational, tested live for smaller audiences.
+- The game format in the application is operational, tested live for smaller audiences.
 - The demo stress tests the application up to 1500 viewers, and all runs smooth. Any issues moving forward from **validated** functions would be from bugs that arise during live testing.
 - THERE IS STILL SCAFFOLDING that requires further development such as integrating ALL `"sniper":"audio_upload"` SFX integrations.
 - Padding needs to be fixed on the Larger chat cards.
 - Would benefit from revisiting the condensed chat users window view; once chats get around 800 it might get hairy on the eyes.
 
-### TODO
-
-> [!WARNING]
+> [!NOTE]
 > ```jsonc
 > // No Audio SFX included. Users must upload their own.
 > { "audio":"NOT_INCLUDED" }
@@ -48,7 +46,7 @@ CURRENT_WORKING_STATE:
 > // DEPENDENCY_GRAPH
 > ```
 
----
+### TODO
 
 > [!NOTE]
 > ```jsonc
