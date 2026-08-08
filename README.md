@@ -23,13 +23,19 @@
 
 > [!NOTE]
 > // No Audio SFX included. Users must upload their own.
->> `{ "audio":"NOT_INCLUDED" }`
->>> for `{ "Sniper":"['HIT', 'MISS', 'CRITICAL', 'DEF-HIT']" }`
+>> ```jsonc
+>> { "audio":"NOT_INCLUDED" }
+>> ```
+>>> ```jsonc
+>>> { "Sniper":["SHOT", "HIT", "MISS", "CRITICAL", "DEF-HIT"] }
+>>> ```
 
 > [!IMPORTANT]
-> // Users may upload their own audio SFX for SOME shot options
->> `{ "audio_upload":"SUPPORTED" }`
->>> for `{ "Sniper":"['HIT', 'MISS', 'CRITICAL', 'DEF-HIT']" }`
+> // Users may upload their own audio SFX for the MAIN silencer sniper sound
+>> ```jsonc
+>> { "audio_upload":"SUPPORTED" }
+>>> { "Sniper":"SHOT" }
+>>> ```
 
 ## QUICK START
 
