@@ -22,7 +22,14 @@
 ## TODO
 
 > [!NOTE]
+> // No Audio SFX included. Users must upload their own.
 > `{ "audio":"NOT_INCLUDED" }`
+>> for
+>> `{ "Sniper":"['HIT', 'MISS', 'CRITICAL', 'DEF-HIT']" }`
+
+> [!IMPORTANT]
+> // Users may upload their own audio SFX for SOME shot options
+> `{ "audio_upload":"SUPPORTED" }`
 >> for
 >> `{ "Sniper":"['HIT', 'MISS', 'CRITICAL', 'DEF-HIT']" }`
 
