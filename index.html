@@ -229,6 +229,11 @@ button:disabled{opacity:.35;pointer-events:none}
 #right h3{padding:10px 14px;border-bottom:1px solid var(--line)}
 #feed{flex:1;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:6px;font-size:12px;line-height:1.5}
 #feed .e{color:var(--dim)} #feed .e b{color:var(--ink);font-family:var(--disp);letter-spacing:.03em;font-size:13px}
+#feed .e.fold{cursor:pointer}
+#feed .chev{color:var(--amber);display:inline-block;width:12px}
+#feed .fdet{margin:5px 0 3px 12px;display:flex;flex-direction:column;gap:3px;border-left:1px solid var(--line);padding-left:9px;cursor:default}
+#feed .fd{color:var(--dim)}
+#feed .fd b{font-size:12px}
 #feed .e.hot b{color:var(--hot)} #feed .e.arm b{color:var(--armor)} #feed .e.amb b{color:var(--amber)}
 #settings{border-top:1px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:10px;font-size:12px}
 #settings .srow{display:flex;align-items:center;gap:8px;justify-content:space-between}
@@ -373,8 +378,8 @@ body.ov #ovroot{display:block}
         <span style="flex:1"></span>
         <button class="ga hot" id="gaHit" data-tip="HIT everyone in the current filter for -25. DEF absorbs first. Asks before firing on 100+.">Hit all</button>
         <button class="ga arm" id="gaHeal" data-tip="Everyone in the current filter back to 100 HP, alive.">Heal all</button>
-        <button class="ga" id="gaPin" data-tip="Pin the whole current filter to Big Iron.">Pin all</button>
-        <button class="ga" id="gaUnpin" data-tip="Release the whole current filter from Big Iron.">Unpin all</button>
+        <button class="ga" id="gaPin" data-tip="Pin the whole current filter to your PIN list.">Pin all</button>
+        <button class="ga" id="gaUnpin" data-tip="Remove the whole current filter from your PIN list.">Unpin all</button>
         <button class="ga" id="gaUndo" data-tip="Revert the last group action. Two steps kept — trimmed to one for very large groups.">Undo</button>
         <button class="ga" id="gaRedo" data-tip="Re-apply the last undone group action.">Redo</button>
       </div>
@@ -513,15 +518,28 @@ function playShot(){
 
 /* ---------- feed + overlay push ---------- */
 const NL=l=>{const c=S.chatters[l];return `<b class="lnk" data-l="${esc(l)}">${esc(c?c.n:l)}</b>`;};
-function feed(html,cls){
-  S.feed.unshift({html,cls,t:now()}); S.feed.length=Math.min(S.feed.length,60);
-  const el=$("#feed"); el.innerHTML=S.feed.map(f=>`<div class="e ${f.cls||""}">${f.html}</div>`).join("");
-  pushState();
+let feedId=0;
+function renderFeed(){
+  $("#feed").innerHTML=S.feed.map(f=>{
+    if(!f.det) return `<div class="e ${f.cls||""}">${f.html}</div>`;
+    return `<div class="e ${f.cls||""} fold" data-fid="${f.id}"><span class="chev">${f.open?"▾":"▸"}</span>${f.html}${f.open?`<div class="fdet">${f.det.map(d=>`<div class="fd">${d}</div>`).join("")}</div>`:""}</div>`;
+  }).join("");
 }
+function feed(html,cls,det){
+  S.feed.unshift({html,cls,det:det||null,open:false,id:++feedId,t:now()});
+  S.feed.length=Math.min(S.feed.length,60);
+  renderFeed(); pushState();
+}
+$("#feed").addEventListener("click",e=>{
+  if(e.target.closest(".lnk")) return; // names open the chatter, not the fold
+  const f=e.target.closest(".fold"); if(!f) return;
+  const entry=S.feed.find(x=>x.id==f.dataset.fid); if(!entry) return;
+  entry.open=!entry.open; renderFeed();
+});
 function snapshot(){
   return {t:"s",bg:S.settings.bg,
     cta:S.cta?{emote:S.cta.emote,end:S.cta.end,got:S.cta.got}:null,
-    feed:S.feed.slice(0,5)};
+    feed:S.feed.slice(0,5).map(f=>({html:f.html,cls:f.cls}))};
 }
 function pushState(){ if(ovWin&&!ovWin.closed) ovWin.postMessage(snapshot(),"*"); }
 function pushEvent(ev){ if(ovWin&&!ovWin.closed) ovWin.postMessage(ev,"*"); }
@@ -668,21 +686,29 @@ function groupAct(kind){
   if(!sel.length) return;
   if((kind==="hit"||kind==="pin")&&sel.length>100&&!confirm(`${kind.toUpperCase()} ALL will affect ${sel.length} chatters. Continue?`)) return;
   pushUndo(kind,sel);
-  let n=0,down=0;
+  let n=0,down=0; const det=[];
   for(const l of sel){ const c=S.chatters[l];
-    if(kind==="hit"&&!c.dead){ applyDmg(c,25); n++; if(c.dead) down++; }
-    else if(kind==="heal"&&(c.hp<100||c.dead||c.open)){ c.hp=100; c.dead=false; c.open=false; n++; }
-    else if(kind==="pin"&&!c.pin){ c.pin=true; c.pinT=now(); n++; }
-    else if(kind==="unpin"&&c.pin){ c.pin=false; n++; }
+    if(kind==="hit"&&!c.dead){
+      const ab=applyDmg(c,25); n++;
+      if(c.dead){ down++; det.push(`${NL(l)} — -25 · <b>WASTED</b>`); }
+      else det.push(`${NL(l)} — -25 (${ab} DEF · ${25-ab} HP) → ${c.hp} HP`);
+    }
+    else if(kind==="heal"&&(c.hp<100||c.dead||c.open)){
+      const was=c.hp, wasDead=c.dead;
+      c.hp=100; c.dead=false; c.open=false; n++;
+      det.push(`${NL(l)} — +${100-was} → 100 HP${wasDead?" · <b>revived</b>":""}`);
+    }
+    else if(kind==="pin"&&!c.ppin){ c.ppin=true; c.ppinT=now(); n++; det.push(NL(l)); }
+    else if(kind==="unpin"&&c.ppin){ c.ppin=false; n++; det.push(NL(l)); }
   }
   if(!n){ undoStack.pop(); updateUndoUI(); return; }
   if(kind==="hit"){ if(down) playShot();
-    feed(`HIT ALL — <b>${n}</b> tagged, <b>${down}</b> down`,"hot");
+    feed(`HIT ALL — <b>${n}</b> tagged, <b>${down}</b> down`,"hot",det);
     pushEvent({t:"e",kind:"hit",name:"EVERYONE ("+n+")",color:"#d7dde3",dmg:25,dead:false});
   }
-  if(kind==="heal") feed(`HEAL ALL — <b>${n}</b> restored to 100 HP`,"arm");
-  if(kind==="pin") feed(`PIN ALL — <b>${n}</b> sent to Big Iron`,"amb");
-  if(kind==="unpin") feed(`UNPIN ALL — <b>${n}</b> released`,"");
+  if(kind==="heal") feed(`HEAL ALL — <b>${n}</b> restored to 100 HP`,"arm",det);
+  if(kind==="pin") feed(`PIN ALL — <b>${n}</b> pinned`,"amb",det);
+  if(kind==="unpin") feed(`UNPIN ALL — <b>${n}</b> removed from PIN`,"",det);
   save(); draw();
 }
 function doUndo(){
