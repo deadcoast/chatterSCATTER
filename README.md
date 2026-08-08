@@ -21,32 +21,42 @@
 
 ## TODO
 
-> [!NOTE]
+> [!WARNING]
 > ```jsonc
 > // No Audio SFX included. Users must upload their own.
 > { "audio":"NOT_INCLUDED" }
-> ```
 > for
->> ```jsonc
->> { 
->>  "sniper":[
->>    "SHOT",
->>    "HIT",
->>    "MISS",
->>    "CRITICAL",
->>    "DEF-HIT"
->>    ]
->> }
->> ```
+> { 
+> "sniper":[
+>    "SHOT",
+>    "HIT",
+>    "MISS",
+>    "CRITICAL",
+>    "DEF-HIT"
+>    ]
+> }
+> // DEPENDENCY_GRAPH
+> ```
 
-> [!IMPORTANT]
+> [!tip]
 > ```jsonc
-> // Users may upload their own audio SFX for the MAIN silencer sniper sound
+> // Users may upload their own audio SFX for ONLY the MAIN silencer sniper shot; TODO:(INTEGRATE) `{ "sniper":["SHOT","HIT","CRITICAL","DEF-HIT"] }`
 > { "audio_upload":"SUPPORTED" }
+> // DEPENDENCY_GRAPH
 > ```
 > for
 >> ```jsonc
 >> { "sniper":"SHOT" }
+>> // DEPENDENCY_GRAPH
+>> ```
+
+> [!CAUTION]
+>> ```jsonc
+>> { "task":"TODO001" }
+>> { "TODO001":"sniper" }
+>> ```jsonc
+>> { "sniper":["SHOT","HIT","CRITICAL","DEF-HIT"] }
+>> // DEPENDENCY_GRAPH
 >> ```
 
 ## QUICK START
@@ -57,8 +67,9 @@
 | `2` | Type your Twitch channel name → **CONNECT** |
 | `3` | **OPEN OVERLAY WINDOW** → OBS → *Window Capture* → `chatterSCATTER OVERLAY` |
 
-> NON-INTRUSIVE:
-> - Standalone Read-only guest connection to public chat. *No Auth, login, API calls or keys.* No bloating chat with bot updates.
+NON-INTRUSIVE:
+
+- Standalone Read-only guest connection to public chat. *No Auth, login, API calls or keys.* No bloating chat with bot updates.
 
 ---
 
@@ -74,7 +85,14 @@
 
 ## STREAMER ACTIONS
 
-> Click any chatter:[card, top-list name, shot-log name] for the shot menu.
+Click a chatter anywhere (chat window, top-list name, shot-log name) for the shot menu.
+
+> DEP_GRAPH
+> ```jsonc
+> // DEPENDENCY_GRAPH
+> { "chatter":["card", "top-list-name", "shot-log-name"] }
+> ```
+
 
 | Call | Effect |
 |---|---|
