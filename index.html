@@ -325,6 +325,10 @@ body.ov #ovroot{display:block}
 #ovFeed .e{background:rgba(18,22,27,.9);border-left:2px solid var(--line);padding:4px 12px;color:var(--dim)}
 #ovFeed .e b{color:var(--ink);font-family:var(--disp);letter-spacing:.03em}
 #ovFeed .e.hot{border-left-color:var(--hot)} #ovFeed .e.arm{border-left-color:var(--armor)} #ovFeed .e.amb{border-left-color:var(--amber)}
+#ovFeed .chev{color:var(--amber);display:inline-block;width:14px}
+#ovFeed .fdet{margin:6px 0 3px 14px;display:flex;flex-direction:column;gap:3px;border-left:1px solid var(--line);padding-left:10px;font-size:13px}
+#ovFeed .fd{color:var(--dim)}
+#ovFeed .fd b{font-size:13px}
 </style>
 </head>
 <body>
@@ -545,7 +549,16 @@ if(OVERLAY){
       document.body.className="ov"+(m.bg&&m.bg!=="dark"?" bg-"+m.bg:"");
       if(m.cta){ $("#ovCta").classList.add("on"); $("#ovEmote").textContent=m.cta.emote; $("#ovSec").textContent=m.cta.got+" SECURED"; clockEnd=m.cta.end; }
       else{ $("#ovCta").classList.remove("on"); $("#ovUrg").classList.remove("on"); }
-      $("#ovFeed").innerHTML=(m.feed||[]).map(f=>`<div class="e ${f.cls||""}">${f.html}</div>`).join("");
+      $("#ovFeed").innerHTML=(m.feed||[]).map(f=>{
+        if(!f.det) return `<div class="e ${f.cls||""}">${f.html}</div>`;
+        let body="";
+        if(f.open){
+          const CAP=12, lines=f.det.slice(0,CAP).map(d=>`<div class="fd">${d}</div>`).join("");
+          const more=f.det.length>CAP?`<div class="fd">+${f.det.length-CAP} more</div>`:"";
+          body=`<div class="fdet">${lines}${more}</div>`;
+        }
+        return `<div class="e ${f.cls||""}"><span class="chev">${f.open?"▾":"▸"}</span>${f.html}${body}</div>`;
+      }).join("");
       if(m.idle){ idle=m.idle; drawIdle(); }
     }
     if(m.t==="e"){ // shot event -> center stage
@@ -646,7 +659,7 @@ $("#feed").addEventListener("click",e=>{
   if(e.target.closest(".lnk")) return; // names open the chatter, not the fold
   const f=e.target.closest(".fold"); if(!f) return;
   const entry=S.feed.find(x=>x.id==f.dataset.fid); if(!entry) return;
-  entry.open=!entry.open; renderFeed();
+  entry.open=!entry.open; renderFeed(); pushState();
 });
 function snapshot(){
   const top5=(key,fmt)=>S.order.map(l=>S.chatters[l]).filter(c=>(c[key]||0)>0)
@@ -655,7 +668,7 @@ function snapshot(){
   return {t:"s",bg:S.settings.bg,
     cta:S.cta?{emote:S.cta.emote,end:S.cta.end,got:S.cta.got}:null,
     idle:{xp:top5("xp"),stk:top5("best",c=>"×"+c.best),ded:top5("deaths",c=>"×"+c.deaths)},
-    feed:S.feed.slice(0,5).map(f=>({html:f.html,cls:f.cls}))};
+    feed:S.feed.slice(0,5).map(f=>({html:f.html,cls:f.cls,det:f.det||null,open:!!f.open,id:f.id}))};
 }
 function pushState(){ if(ovWin&&!ovWin.closed) ovWin.postMessage(snapshot(),"*"); }
 function pushEvent(ev){ if(ovWin&&!ovWin.closed) ovWin.postMessage(ev,"*"); }
