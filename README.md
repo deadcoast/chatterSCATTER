@@ -36,7 +36,7 @@ CURRENT_WORKING_STATE:
 > { "audio":"NOT_INCLUDED" }
 > for
 >> { "sniper":["SHOT","HIT","MISS","CRITICAL","DEF-HIT"] }
->> // DEPENDENCY_GRAPH
+> // DEPENDENCY_GRAPH
 > ```
 
 > [!tip]
@@ -45,7 +45,7 @@ CURRENT_WORKING_STATE:
 > { "audio_upload":"SUPPORTED" }
 > for
 >> { "sniper":"SHOT" }
->> // DEPENDENCY_GRAPH
+> // DEPENDENCY_GRAPH
 > ```
 
 ---
@@ -57,7 +57,7 @@ CURRENT_WORKING_STATE:
 > { "TODO[001]":"DEVELOP" }
 > for
 >> { "sniper":["SHOT","HIT","CRITICAL","DEF-HIT"] }
->> // DEPENDENCY_GRAPH
+> // DEPENDENCY_GRAPH
 > ```
 
 ## QUICK START
@@ -88,12 +88,10 @@ NON-INTRUSIVE:
 
 Click a chatter anywhere (chat window, top-list name, shot-log name) for the shot menu.
 
-> DEP_GRAPH
 > ```jsonc
-> // DEPENDENCY_GRAPH
 > { "chatter":["card", "top-list-name", "shot-log-name"] }
+> // DEPENDENCY_GRAPH
 > ```
-
 
 | Call | Effect |
 |---|---|
