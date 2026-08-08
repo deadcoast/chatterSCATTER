@@ -55,8 +55,8 @@ APP_STATE:
 
 > [!NOTE]
 > ```jsonc
-> // No Audio SFX included. Users must upload their own.
-> { "audio":"NOT_INCLUDED" }
+> // ONLY main silencer Audio SFX included. Users must upload their own for changes or additional uses.
+> { "audio":"main_only" }
 > for
 >> { "sniper":["SHOT","HIT","MISS","CRITICAL","DEF-HIT"] }
 > // DEPENDENCY_GRAPH
@@ -64,7 +64,7 @@ APP_STATE:
 
 > [!tip]
 > ```jsonc
-> // Users may upload their own audio SFX for ONLY the MAIN silencer sniper shot;(TODO[001])
+> // Users may upload/change the audio SFX for ONLY the MAIN silencer sniper shot;(TODO[001])
 > { "audio_upload":"SUPPORTED" }
 > for
 >> { "sniper":"SHOT" }
