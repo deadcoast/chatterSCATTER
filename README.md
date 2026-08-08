@@ -29,20 +29,13 @@ CURRENT_WORKING_STATE:
 - Would benefit from revisiting the condensed chat users window view; once chats get around 800 it might get hairy on the eyes.
 
 ### TODO
+
 > [!WARNING]
 > ```jsonc
 > // No Audio SFX included. Users must upload their own.
 > { "audio":"NOT_INCLUDED" }
 > for
->> { 
->> "sniper":[
->>    "SHOT",
->>    "HIT",
->>    "MISS",
->>    "CRITICAL",
->>    "DEF-HIT"
->>    ]
->> }
+>> { "sniper":["SHOT","HIT","MISS","CRITICAL","DEF-HIT"] }
 >> // DEPENDENCY_GRAPH
 > ```
 
