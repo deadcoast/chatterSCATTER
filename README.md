@@ -19,7 +19,7 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 
 ---
 
-## START
+## QUICK START
 
 | Step | Action |
 |---|---|
@@ -32,7 +32,7 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 
 ---
 
-## FORMAT
+## SIMPLE FORMAT
 
 | Mechanic | Rule |
 |---|---|
@@ -76,7 +76,7 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 | `PIN ALL` / `UNPIN ALL` | Big Iron the whole filter, or clear it |
 | `UNDO ×2` / `REDO ×2` | Revert group actions ; trimmed to 1 step on 400+ targets, with notice |
 
-## INTEL
+## SIMPLE METRICS
 
 | Readout | Source |
 |---|---|
@@ -84,7 +84,9 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 | **TOP EMOTES** | Twitch-native emotes **+ your channel's 7TV / BTTV / FFZ lists**, fetched automatically on connect ; zero keys, zero input |
 | Custom words | `Also track emotes` ; comma-separated additions for anything off-platform |
 
-## THE STAGE
+## POP-OUT OVERLAY WINDOW
+
+> `CHROMA GREEN + MAGENTA` options for `GreenScreen`
 
 | Overlay element | Detail |
 |---|---|
