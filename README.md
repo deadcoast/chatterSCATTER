@@ -23,8 +23,8 @@
 
 > [!NOTE]
 > `{ "audio":"NOT_INCLUDED" }`
->> for;
-> `{ "Sniper":"['HIT', 'MISS', 'CRITICAL', 'DEF-HIT']" }`
+>> for
+>> `{ "Sniper":"['HIT', 'MISS', 'CRITICAL', 'DEF-HIT']" }`
 
 ## QUICK START
 
