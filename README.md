@@ -4,7 +4,7 @@
 
 <img src="https://cdn.7tv.app/emote/01J17WK010000DX4MZBQSYH8ZA/2x.gif" height="56" alt="oda">
 
-*A proprietary interaction format.*
+*A standalone chat interaction format.*
 
 `->` Streamer starts a Call to Action(*CTA*); *"Can I get a...(Emote)"*
 
