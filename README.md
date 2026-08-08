@@ -10,6 +10,11 @@ Streamer starts a Call to Action(*CTA*); *"Can I get a...(Emote)"*
 
 Chat answers (*Emote*) in the *CTA* time frame, earning defense against potential snipers.
 
+> [!IMPORTANT]
+> [audio: NOT_INCLUDED]
+>> for;
+>>> Sniper:['HIT', 'MISS', 'CRITICAL', 'DEF-HIT'(ricochet)]
+
 [**► LIVE PAGE**](https://deadcoast.github.io/chatterSCATTER/) · [Repository](https://github.com/deadcoast/chatterSCATTER)
 
 [![live](https://img.shields.io/badge/LIVE-deadcoast.github.io%2FchatterSCATTER-2ea44f?style=flat-square&labelColor=12161b)](https://deadcoast.github.io/chatterSCATTER/)
