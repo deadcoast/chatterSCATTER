@@ -7,7 +7,8 @@
 *A proprietary interaction format.*
 
 `->` Streamer starts a Call to Action(*CTA*); *"Can I get a...(Emote)"*
-`<-` Chat answers (*Emote*) in the *CTA* time frame, earning defense against potential snipers.
+
+`<-` Chat answers (*Emote*) in the *CTA* time frame, earning XP + DEF(defense) against streamer's sniper overwatch.
 
 [**► LIVE PAGE**](https://deadcoast.github.io/chatterSCATTER/) · [Repository](https://github.com/deadcoast/chatterSCATTER)
 
