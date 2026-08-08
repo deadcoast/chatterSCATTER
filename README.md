@@ -6,14 +6,9 @@
 
 *A proprietary interaction format.*
 
-Streamer starts a Call to Action(*CTA*); *"Can I get a...(Emote)"*
+`->` Streamer starts a Call to Action(*CTA*); *"Can I get a...(Emote)"*
 
-Chat answers (*Emote*) in the *CTA* time frame, earning defense against potential snipers.
-
-> [!IMPORTANT]
-> [audio: NOT_INCLUDED]
->> for;
->>> Sniper:['HIT', 'MISS', 'CRITICAL', 'DEF-HIT'(ricochet)]
+`<-` Chat answers (*Emote*) in the *CTA* time frame, earning defense against potential snipers.
 
 [**► LIVE PAGE**](https://deadcoast.github.io/chatterSCATTER/) · [Repository](https://github.com/deadcoast/chatterSCATTER)
 
@@ -23,6 +18,13 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 </div>
 
 ---
+
+## TODO
+
+> [!IMPORTANT]
+> "audio":"NOT_INCLUDED"
+>> for;
+> "Sniper":"['HIT', 'MISS', 'CRITICAL', 'DEF-HIT']"
 
 ## QUICK START
 
