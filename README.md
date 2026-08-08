@@ -19,7 +19,31 @@
 
 ---
 
-## DEV NOTES
+## QUICK START
+
+| Step | Action |
+|---|---|
+| `1` | Open the [live page](https://deadcoast.github.io/chatterSCATTER/) |
+| `2` | Type your Twitch channel name → **CONNECT** |
+| `3` | **OPEN OVERLAY WINDOW** → OBS → *Window Capture* → `chatterSCATTER OVERLAY` |
+
+NON-INTRUSIVE:
+
+- Standalone Read-only guest connection to public chat. *No Auth, login, API calls or keys.* No bloating chat with bot updates.
+
+---
+
+## SIMPLE FORMAT
+
+| Mechanic | Rule |
+|---|---|
+| **HP** | Every chatter spawns at `100 HP` the moment they talk |
+| **CTA** | You demand an emote. Chat has `30–120s` to type it |
+| **DEF** | Typing the emote earns `+25 DEF` (configurable). **Stacks.** Absorbs damage before HP |
+| **OPEN** | Failing the CTA renders the chatter without armor incase of sniper fire |
+| **XP / PTS** | Earned by chatting, securing CTAs, surviving shots. Persists between streams, per channel |
+
+## DEV NOTES + TODO
 
 APP_STATE:
 
@@ -59,30 +83,6 @@ APP_STATE:
 > // DEPENDENCY_GRAPH
 > ```
 
-## QUICK START
-
-| Step | Action |
-|---|---|
-| `1` | Open the [live page](https://deadcoast.github.io/chatterSCATTER/) |
-| `2` | Type your Twitch channel name → **CONNECT** |
-| `3` | **OPEN OVERLAY WINDOW** → OBS → *Window Capture* → `chatterSCATTER OVERLAY` |
-
-NON-INTRUSIVE:
-
-- Standalone Read-only guest connection to public chat. *No Auth, login, API calls or keys.* No bloating chat with bot updates.
-
----
-
-## SIMPLE FORMAT
-
-| Mechanic | Rule |
-|---|---|
-| **HP** | Every chatter spawns at `100 HP` the moment they talk |
-| **CTA** | You demand an emote. Chat has `30–120s` to type it |
-| **DEF** | Typing the emote earns `+25 DEF` (configurable). **Stacks.** Absorbs damage before HP |
-| **OPEN** | Failing the CTA flags a chatter exposed ; critical fire unlocked on them |
-| **XP / PTS** | Earned by chatting, securing CTAs, surviving shots. Persists between streams, per channel |
-
 ## STREAMER ACTIONS
 
 Click a chatter anywhere (chat window, top-list name, shot-log name) for the shot menu.
@@ -101,9 +101,13 @@ Click a chatter anywhere (chat window, top-list name, shot-log name) for the sho
 | `GRANT DEF` | Manual `+25 DEF` |
 | `REDEPLOY` | Revive at `100 HP` |
 
-## PIN LIST: BIG IRON
+## PIN LIST
 
 > A self-curated list at the top of the chat window
+
+## BIG IRON
+
+> Automated list of all chatters that have had an Action operated on them
 
 | Behavior | Detail |
 |---|---|
@@ -153,13 +157,13 @@ Click a chatter anywhere (chat window, top-list name, shot-log name) for the sho
 
 Click always opens full detail. Single-card refresh keeps shots instant at `1500` chatters.
 
-## REHEARSAL
+## DEMO: TRY IT
 
 | Tool | Purpose |
 |---|---|
 | Demo chat | Fake chatters, offline ; full format rehearsal |
 | Crowd `10–1500` | Simulate any chat size, live density preview |
-| Hover manual | Built-in tooltip zone explains every control in plain words ; foldable |
+| Hover manual | Built-in tooltip zone (top right below button `CHANGE CHANNEL`) explains every control in plain words ; foldable |
 
 ---
 
