@@ -22,20 +22,30 @@
 ## TODO
 
 > [!NOTE]
+> ```jsonc
 > // No Audio SFX included. Users must upload their own.
+> { "audio":"NOT_INCLUDED" }
+> ```
 >> ```jsonc
->> { "audio":"NOT_INCLUDED" }
+>> { 
+>>  "sniper":[
+>>    "SHOT",
+>>    "HIT",
+>>    "MISS",
+>>    "CRITICAL",
+>>    "DEF-HIT"
+>>    ]
+>> }
 >> ```
->>> ```jsonc
->>> { "Sniper":["SHOT", "HIT", "MISS", "CRITICAL", "DEF-HIT"] }
->>> ```
 
 > [!IMPORTANT]
+> ```jsonc
 > // Users may upload their own audio SFX for the MAIN silencer sniper sound
+> { "audio_upload":"SUPPORTED" }
+> ```
 >> ```jsonc
->> { "audio_upload":"SUPPORTED" }
->>> { "Sniper":"SHOT" }
->>> ```
+>> { "sniper":"SHOT" }
+>> ```
 
 ## QUICK START
 
