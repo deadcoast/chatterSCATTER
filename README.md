@@ -119,6 +119,6 @@ Click always opens full detail. Single-card refresh keeps shots instant at `1500
 
 chatterSCATTER
 
-[deadcoast.github.io/chatterSCATTER](https://deadcoast.github.io/chatterSCATTER/) · [github.com/deadcoast/chatterSCATTER](https://github.com/deadcoast/chatterSCATTER)
+[demo-chatterSCATTER](https://deadcoast.github.io/chatterSCATTER/) · [repo-chatterSCATTER](https://github.com/deadcoast/chatterSCATTER)
 
 </div>
