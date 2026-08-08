@@ -25,7 +25,9 @@
 > ```jsonc
 > // No Audio SFX included. Users must upload their own.
 > { "audio":"NOT_INCLUDED" }
+> ```
 > for
+> ```jsonc
 > { 
 > "sniper":[
 >    "SHOT",
@@ -40,7 +42,7 @@
 
 > [!tip]
 > ```jsonc
-> // Users may upload their own audio SFX for ONLY the MAIN silencer sniper shot; TODO:(INTEGRATE) `{ "sniper":["SHOT","HIT","CRITICAL","DEF-HIT"] }`
+> // Users may upload their own audio SFX for ONLY the MAIN silencer sniper shot; TODO[001]
 > { "audio_upload":"SUPPORTED" }
 > // DEPENDENCY_GRAPH
 > ```
@@ -50,10 +52,14 @@
 >> // DEPENDENCY_GRAPH
 >> ```
 
-> [!CAUTION]
->> ```jsonc
->> { "task":"TODO001" }
->> { "TODO001":"sniper" }
+---
+
+> [!NOTE]
+> ```jsonc
+> // Develop and integrate the rest of the Audio Upload and SFX functions so the users can upload all of the sniper output sounds they wish.
+> { "task":"TODO[001]" }
+> { "TODO[001]":"sniper" }
+> ```
 >> ```jsonc
 >> { "sniper":["SHOT","HIT","CRITICAL","DEF-HIT"] }
 >> // DEPENDENCY_GRAPH
