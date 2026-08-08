@@ -30,7 +30,7 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 | `3` | **OPEN OVERLAY WINDOW** → OBS → *Window Capture* → `chatterSCATTER OVERLAY` |
 
 > NON-INTRUSIVE:
-> - This is a Standalone Read-only guest connection to public chat. *No auth, login, API calls or keys. No bloating chat with bot updates.
+> - Standalone Read-only guest connection to public chat. *No Auth, login, API calls or keys.* No bloating chat with bot updates.
 
 ---
 
