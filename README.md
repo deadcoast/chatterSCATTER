@@ -32,7 +32,7 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 
 ---
 
-## THE FORMAT
+## FORMAT
 
 | Mechanic | Rule |
 |---|---|
