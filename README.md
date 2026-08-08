@@ -14,9 +14,6 @@ Chat answers (*Emote*) in the *CTA* time frame, earning defense against potentia
 
 [![live](https://img.shields.io/badge/LIVE-deadcoast.github.io%2FchatterSCATTER-ffb454?style=flat-square&labelColor=12161b)](https://deadcoast.github.io/chatterSCATTER/)
 [![single file](https://img.shields.io/badge/SINGLE%20FILE-index.html-232c36?style=flat-square&labelColor=12161b)](https://github.com/deadcoast/chatterSCATTER/blob/main/index.html)
-[![auth](https://img.shields.io/badge/AUTH-NONE-232c36?style=flat-square&labelColor=12161b)](https://deadcoast.github.io/chatterSCATTER/)
-[![setup](https://img.shields.io/badge/SETUP-TYPE%20YOUR%20CHANNEL-232c36?style=flat-square&labelColor=12161b)](https://deadcoast.github.io/chatterSCATTER/)
-[![backend](https://img.shields.io/badge/BACKEND-NONE-232c36?style=flat-square&labelColor=12161b)](https://github.com/deadcoast/chatterSCATTER)
 
 </div>
 
