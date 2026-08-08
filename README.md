@@ -7,7 +7,6 @@
 *A proprietary interaction format.*
 
 `->` Streamer starts a Call to Action(*CTA*); *"Can I get a...(Emote)"*
-
 `<-` Chat answers (*Emote*) in the *CTA* time frame, earning defense against potential snipers.
 
 [**► LIVE PAGE**](https://deadcoast.github.io/chatterSCATTER/) · [Repository](https://github.com/deadcoast/chatterSCATTER)
@@ -51,11 +50,10 @@ CURRENT_WORKING_STATE:
 
 > [!tip]
 > ```jsonc
-> // Users may upload their own audio SFX for ONLY the MAIN silencer sniper shot; TODO[001]
+> // Users may upload their own audio SFX for ONLY the MAIN silencer sniper shot;(TODO[001])
 > { "audio_upload":"SUPPORTED" }
-> // DEPENDENCY_GRAPH
+> // for
 > ```
-> for
 >> ```jsonc
 >> { "sniper":"SHOT" }
 >> // DEPENDENCY_GRAPH
