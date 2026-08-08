@@ -53,11 +53,9 @@ CURRENT_WORKING_STATE:
 > // Users may upload their own audio SFX for ONLY the MAIN silencer sniper shot;(TODO[001])
 > { "audio_upload":"SUPPORTED" }
 > // for
-> ```
->> ```jsonc
 >> { "sniper":"SHOT" }
 >> // DEPENDENCY_GRAPH
->> ```
+> ```
 
 ---
 
